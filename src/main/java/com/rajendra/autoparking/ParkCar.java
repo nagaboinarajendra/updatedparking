@@ -1,5 +1,9 @@
 package com.rajendra.autoparking;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -12,11 +16,11 @@ import java.util.Map;
  *
  */
 public class ParkCar {
-
+	
 	private String carNumber;
 	Scanner input = new Scanner(System.in);
-	public ParkCar() {
-		new ParkingSpace(50);
+	public ParkCar() throws IOException {
+		
 		if(ParkingSpace.getReminingSlots() != 0) {
 			System.out.print("Enter The Car Number:");
 			carNumber = input.next();
@@ -27,13 +31,14 @@ public class ParkCar {
 		}
 	}	
 			
-	public void park(String carNumber) {
+	public void park(String carNumber) throws IOException {
+		
 		if(isValid(carNumber)) {
 			if(isPresent(carNumber)) {
 				 for(Map.Entry m:ParkingSpace.slot.entrySet()){
 					   if(m.getValue().equals(carNumber)) {
 						   System.out.println("Vehicle already parked in Parking Area at slot number" + m.getKey());
-					   } 
+					   }
 				 }
 			 }
 			else {
@@ -44,11 +49,24 @@ public class ParkCar {
 					System.out.println("parked successfully at slot" + slotNumber);
 					inTime(slotNumber);
 					ParkingSpace.list.remove(slotNumber);
+
 				}
 				else {
+					
 				ParkingSpace.slot.put(ParkingSpace.getSlotNumber(), carNumber);
 				System.out.println("parked successfully at slot" + ParkingSpace.getSlotNumber());
 				inTime(ParkingSpace.getSlotNumber());
+				
+				try(FileWriter fw = new FileWriter("Transaction.txt", true);
+					    BufferedWriter bw = new BufferedWriter(fw);
+					    PrintWriter out = new PrintWriter(bw))
+				{
+					    out.print("\n" + Integer.toString(ParkingSpace.getSlotNumber()) + "," + carNumber);
+					    
+					   				    
+					} catch (IOException e) {
+					    
+					}   
 				ParkingSpace.setSlotNumber(ParkingSpace.getSlotNumber()+1);
 				}
 			 }
@@ -95,6 +113,7 @@ public class ParkCar {
         ParkingSpace.time.put(slot,new Date().getTime());
         
 	}
+	
 	
 }
 

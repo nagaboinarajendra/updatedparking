@@ -11,8 +11,7 @@ import java.util.PriorityQueue;
 public class ParkingSpace {
 	
 	private static int totalSlots;
-	private static int slotsFilled = 0;
-	private static int slotsRemaining;
+	private static int slotsRemaining = 0;
 	private static int slotNumber =1;
 	
 	 static Hashtable<Integer,String> slot=new Hashtable<Integer,String>();
@@ -24,11 +23,12 @@ public class ParkingSpace {
 	 */
 	public ParkingSpace(int slot){
 		ParkingSpace.totalSlots = slot;
-		ParkingSpace.slotsRemaining = totalSlots;
+		slotsRemaining = totalSlots;
 	}
-		
-	public static void setRemainingSlots() {
-		slotsRemaining = totalSlots - slotsFilled;
+	
+	
+	public static void updateSlotsRemaining() {
+		slotsRemaining-=1;
 	}
 	/**
 	 * 
@@ -43,6 +43,9 @@ public class ParkingSpace {
 	 */
 	public static  int getSlotNumber() {
 		return slotNumber;
+	}
+	public static void updateSlotNumber() {
+		slotNumber+=1;
 	}
 	/**
 	 * 

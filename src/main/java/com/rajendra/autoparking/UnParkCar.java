@@ -1,6 +1,10 @@
 
 package com.rajendra.autoparking;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,9 +16,10 @@ import java.util.regex.Pattern;
  *
  */
 public class UnParkCar {
-
+	
 	Scanner input = new Scanner(System.in);
-	public UnParkCar() {
+	public UnParkCar() throws IOException{   
+		
 		System.out.print("Enter The Car Number:");
 		String carNumber = input.next();
 		boolean isCarValid = isValid(carNumber);
@@ -23,8 +28,20 @@ public class UnParkCar {
 					   if(m.getValue().equals(carNumber)) {
 						   ParkingSpace.slot.remove(m.getKey());
 						   ParkingSpace.list.add((Integer) m.getKey());
-						   
+						   try(FileWriter fw = new FileWriter("LogFile.txt", true);
+								    BufferedWriter bw = new BufferedWriter(fw);
+								    PrintWriter out = new PrintWriter(bw))
+							{
+								    out.print("\n" + m.getKey().toString() + "," + carNumber);
+								    
+								   				    
+								} catch (IOException e) {
+								    
+								} 
+						   System.out.println(ParkingSpace.time.get(m.getKey()));
 						   long diff = new Date().getTime() - ParkingSpace.time.get(m.getKey()) ;
+						  
+
 						   long diffSeconds = diff / 1000 % 60;
 						   long diffMinutes = diff / (60 * 1000) % 60;
 						   long diffHours = diff / (60 * 60 * 1000) % 24;
@@ -43,6 +60,7 @@ public class UnParkCar {
 				System.out.println("Enter a valid car number");
 				new UnParkCar();
 			}
+			
 	}
 	/**
 	 * 
@@ -59,7 +77,8 @@ public class UnParkCar {
 		}
 		return false;
 	}
-	
+
 	
 }
+
 

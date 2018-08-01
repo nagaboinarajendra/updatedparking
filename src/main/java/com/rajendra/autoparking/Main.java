@@ -1,5 +1,6 @@
 package com.rajendra.autoparking;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -11,11 +12,14 @@ public class Main {
 /**
  * 
  * @param args
+ * @throws IOException 
  */
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException {
 		Scanner input = new Scanner(System.in);
 		Admin admin = new Admin();
 		if(admin.isAdminValid) {
+			new ParkingSpace(50);
+			new CsvReader();
 			while(admin.adminLogin) {
 				System.out.println("Select one of the following:\n1.park the car\n2.Unpark the car\n3.exit\n4.display");
 				int choice = input.nextInt();
@@ -38,5 +42,7 @@ public class Main {
 		input.close();
 	}				
 }
+// ParkingSpace.setslotsFilled(count);
+//ParkingSpace.setRemainingSlots();
 
 
