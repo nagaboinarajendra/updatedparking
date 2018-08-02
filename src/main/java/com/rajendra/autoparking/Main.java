@@ -19,7 +19,7 @@ public class Main {
 		Admin admin = new Admin();
 		if(admin.isAdminValid) {
 			new ParkingSpace(50);
-			new CsvReader();
+			loadTransaction();
 			while(admin.adminLogin) {
 				System.out.println("Select one of the following:\n1.park the car\n2.Unpark the car\n3.exit\n4.display");
 				int choice = input.nextInt();
@@ -40,7 +40,10 @@ public class Main {
 			new Admin();
 			}
 		input.close();
-	}				
+	}	
+	public static void loadTransaction() {
+		new CsvReader();
+	}
 }
 
 

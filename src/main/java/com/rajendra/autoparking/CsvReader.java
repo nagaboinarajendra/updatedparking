@@ -14,11 +14,13 @@ public class CsvReader {
         String line = "";
         String cvsSplitBy = ",";
         try {
+        	InTime intime = new InTime();
             br = new BufferedReader(new FileReader(file));
             while ((line = br.readLine()) != null) {
                 // use comma as separator
                 String[] country = line.split(cvsSplitBy);
                 ParkingSpace.slot.put(country[1], Integer.parseInt(country[0]));
+                intime.setInTimesOfTransactionCars(Integer.parseInt(country[0]), Long.parseLong(country[2]));
                 ParkingSpace.updateSlotsRemaining();
 	            ParkingSpace.updateSlotNumber();
             }

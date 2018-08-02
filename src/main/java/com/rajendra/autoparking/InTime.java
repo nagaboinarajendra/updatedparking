@@ -18,7 +18,6 @@ public class InTime {
 	 * @return the inTime
 	 */
 	public long getInTime(int slot) {
-		System.out.println(intime[slot]);
 		return intime[slot];
 	}
 
@@ -27,6 +26,9 @@ public class InTime {
 	 */
 	public void setInTime(int slot) {
 		intime[slot] = new Date().getTime();
+	}
+	public void setInTimesOfTransactionCars(int slot,long inTime) {
+		intime[slot] = inTime;
 	}
 	
 }

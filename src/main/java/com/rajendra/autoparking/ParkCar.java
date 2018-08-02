@@ -93,8 +93,8 @@ public class ParkCar {
 		try(FileWriter fw = new FileWriter("Transaction.txt", true);
 			    BufferedWriter bw = new BufferedWriter(fw);
 			    PrintWriter out = new PrintWriter(bw))
-		{
-			    out.print("\n" + Integer.toString(slotNumber) + "," + carNumber);	    
+		{		InTime obj = new InTime();
+			    out.print("\n" + Integer.toString(slotNumber) + "," + carNumber + "," +obj.getInTime(slotNumber));	    
 		} catch (IOException e) {
 			    
 		}
