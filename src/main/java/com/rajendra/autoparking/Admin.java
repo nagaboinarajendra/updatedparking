@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Admin {
 	final String username = "admin";
 	final String password = "admin";
-	boolean isAdminValid = false;
+	static boolean isAdminValid = false;
 	boolean adminLogin = false;
 	Scanner adminCredentials = new Scanner(System.in);
 	public Admin(){

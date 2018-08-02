@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Main {
 /**
  * 
- * @param args
+ * @param args 
  * @throws IOException 
  */
 	public static void main(String args[]) throws IOException {
@@ -42,7 +42,6 @@ public class Main {
 		input.close();
 	}				
 }
-// ParkingSpace.setslotsFilled(count);
-//ParkingSpace.setRemainingSlots();
+
 
 

@@ -29,7 +29,7 @@ public class AdminTest
     }
 
     public void testAdminlogin() {
-    	assertTrue(new Admin().validateAdmin("rajendra", "1234"));
+    	assertEquals();
     	assertFalse(new Admin().validateAdmin("rajendra", "58454"));
     	assertFalse(new Admin().validateAdmin("fdsdsfd", "1234"));
     }

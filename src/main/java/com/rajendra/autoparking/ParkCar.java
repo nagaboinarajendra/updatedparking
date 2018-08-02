@@ -16,9 +16,19 @@ import java.util.Map;
  *
  */
 public class ParkCar {
-	
+	/*
+	 * 
+	 */
 	private String carNumber;
+	/*
+	 * 
+	 */
+	
 	Scanner input = new Scanner(System.in);
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	public ParkCar() throws IOException {
 		
 		if(ParkingSpace.getReminingSlots() != 0) {
@@ -29,54 +39,66 @@ public class ParkCar {
 		else {
 			System.out.println("Parking space is full");
 		}
-	}	
-			
+	}
+	
+	Iterator<Integer> itr2=ParkingSpace.list.iterator();
+	/**
+	 * 
+	 * @param carNumber
+	 * @throws IOException
+	 */
 	public void park(String carNumber) throws IOException {
 		
 		if(isValid(carNumber)) {
 			if(isPresent(carNumber)) {
-				 for(Map.Entry m:ParkingSpace.slot.entrySet()){
-					   if(m.getValue().equals(carNumber)) {
-						   System.out.println("Vehicle already parked in Parking Area at slot number" + m.getKey());
-					   }
-				 }
+				System.out.println("Vehicle already parked in Parking Area at slot number" + ParkingSpace.slot.get(carNumber));
 			 }
 			else {
-				Iterator<Integer> itr2=ParkingSpace.list.iterator();		 
-				if(itr2.hasNext()) {
-					int slotNumber = itr2.next();
-					ParkingSpace.slot.put(slotNumber, carNumber);
-					System.out.println("parked successfully at slot" + slotNumber);
-					inTime(slotNumber);
-					ParkingSpace.list.remove(slotNumber);
-
-				}
-				else {
-					
-				ParkingSpace.slot.put(ParkingSpace.getSlotNumber(), carNumber);
-				System.out.println("parked successfully at slot" + ParkingSpace.getSlotNumber());
-				inTime(ParkingSpace.getSlotNumber());
-				
-				try(FileWriter fw = new FileWriter("Transaction.txt", true);
-					    BufferedWriter bw = new BufferedWriter(fw);
-					    PrintWriter out = new PrintWriter(bw))
-				{
-					    out.print("\n" + Integer.toString(ParkingSpace.getSlotNumber()) + "," + carNumber);
-					    
-					   				    
-					} catch (IOException e) {
-					    
-					}   
-				ParkingSpace.setSlotNumber(ParkingSpace.getSlotNumber()+1);
-				}
-			 }
+				parking();
+			}
 		}
 		else {
 			System.out.println("Enter a valid car number");
 			new ParkCar();
 		}
 	}
-		
+	/**
+	 * 
+	 */
+	public void parking() {
+		if(itr2.hasNext()) {
+			int slotNumber = itr2.next();
+			ParkingSpace.slot.put(carNumber, slotNumber);
+			System.out.println("parked successfully at slot" + slotNumber);
+			inTime(slotNumber);
+			ParkingSpace.list.remove(slotNumber);
+			saveRecord(slotNumber,carNumber);
+
+		}
+		else {
+			
+		ParkingSpace.slot.put(carNumber, ParkingSpace.getSlotNumber());
+		System.out.println("parked successfully at slot" + ParkingSpace.getSlotNumber());
+		inTime(ParkingSpace.getSlotNumber());
+		saveRecord(ParkingSpace.getSlotNumber(),carNumber);
+		ParkingSpace.setSlotNumber(ParkingSpace.getSlotNumber()+1);
+		}
+	}
+	/**
+	 * 
+	 * @param slotNumber
+	 * @param carNumber
+	 */
+	public void saveRecord(int slotNumber, String carNumber) {
+		try(FileWriter fw = new FileWriter("Transaction.txt", true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+		{
+			    out.print("\n" + Integer.toString(slotNumber) + "," + carNumber);	    
+		} catch (IOException e) {
+			    
+		}
+	}
 	/**
 	 * 
 	 * @param carNumber2 is car number
@@ -84,7 +106,7 @@ public class ParkCar {
 	 */
 	private boolean isPresent(String carNumber2) {
 		for(Map.Entry m:ParkingSpace.slot.entrySet()){  
-			   if(m.getValue().equals(carNumber2)) {
+			   if(m.getKey().equals(carNumber2)) {
 				   return true;
 			   }  
 		} 
@@ -109,11 +131,10 @@ public class ParkCar {
 	 * 
 	 * @param slot number of the car
 	 */
-	public  void inTime(int slot) {   
-        ParkingSpace.time.put(slot,new Date().getTime());
-        
+	public void inTime(int slot) {   
+		InTime obj = new InTime();
+		obj.setInTime(slot);
 	}
-	
 	
 }
 
